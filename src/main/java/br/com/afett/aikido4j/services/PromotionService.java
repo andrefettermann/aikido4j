@@ -1,15 +1,15 @@
 package br.com.afett.aikido4j.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.afett.aikido4j.entities.Rank;
 import br.com.afett.aikido4j.entities.Student;
+import br.com.afett.aikido4j.validations.StudentPromotionTimeOfPracticeInRankValidation;
+import br.com.afett.aikido4j.validations.StudentPromotionValidation;
+import br.com.afett.aikido4j.validations.StudentPromotionRankValidation;
 
 public class PromotionService {
-	
-	public static final String STUDENT_NOT_ALLOWED_FOR_RANK = 
-						"Student not allowed to be promoted to this rank";
-
-	public static final String STUDENT_NOT_ENOUGH_TIME = 
-						"Student does not have enough practice time!";
 	
 	public static final String NO_TEST_REQUIRED_FOR_RANK = 
 						"No test required for the rank!";
@@ -17,10 +17,13 @@ public class PromotionService {
 	public static final String TEST_RANK_MANDATORY = 
 			"Test rank mandatory!";
 
-	private StudentService studentService;
-	
+	private List<StudentPromotionValidation> studentValidations;
+
 	public PromotionService() {
-		studentService = new StudentService();
+		studentValidations = new ArrayList<>();
+		studentValidations.add(
+				new StudentPromotionTimeOfPracticeInRankValidation());
+		studentValidations.add(new StudentPromotionRankValidation());
 	}
 	
 	private void checkTestRank(Rank rank) throws Exception {
@@ -30,28 +33,12 @@ public class PromotionService {
 		}
 	}
 	
-	private void checkStudentRank(Rank rankTest, Rank studentRank) 
-			throws Exception {
-		if (!rankTest.getName().equals(studentRank.getNextRankName())) {
-			throw new Exception(STUDENT_NOT_ALLOWED_FOR_RANK);
-		}
-	}
-	
-	private void checkStudentPracticeTime(Rank rankTest, Student student) 
-			throws Exception {
-		Long studentPracticeTimeInCurrentRank = 
-				studentService.getPracticeTimeInCurrentRank(student);
-
-		if (studentPracticeTimeInCurrentRank < rankTest.getRequiredTime()) {
-			throw new Exception(STUDENT_NOT_ENOUGH_TIME);
-		}
-	}
-	
 	public void applyForTest(Rank rankTest, Student student) throws Exception {
 		try {
 			checkTestRank(rankTest);
-			checkStudentRank(rankTest, student.getRank());
-			checkStudentPracticeTime(rankTest, student);
+			for (StudentPromotionValidation validation:studentValidations) {
+				validation.validate(rankTest, student);
+			}
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}

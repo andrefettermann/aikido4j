@@ -15,6 +15,8 @@ import br.com.afett.aikido4j.entities.Rank;
 import br.com.afett.aikido4j.entities.Student;
 import br.com.afett.aikido4j.services.PromotionService;
 import br.com.afett.aikido4j.services.RankService;
+import br.com.afett.aikido4j.validations.StudentPromotionRankValidation;
+import br.com.afett.aikido4j.validations.StudentPromotionTimeOfPracticeInRankValidation;
 
 class PromotionServiceTest {
 	
@@ -77,7 +79,8 @@ class PromotionServiceTest {
 			fail();
 		} catch (Exception e) {
 			assertEquals(
-					PromotionService.STUDENT_NOT_ENOUGH_TIME, e.getMessage());
+					StudentPromotionTimeOfPracticeInRankValidation
+					.STUDENT_NOT_ENOUGH_TIME, e.getMessage());
 		}
 	}
 
@@ -150,7 +153,8 @@ class PromotionServiceTest {
 			fail();
 		} catch (Exception e) {
 			assertEquals(
-					PromotionService.STUDENT_NOT_ALLOWED_FOR_RANK, e.getMessage());
+					StudentPromotionRankValidation
+					.STUDENT_NOT_ALLOWED_FOR_RANK, e.getMessage());
 		}
 	}
 
