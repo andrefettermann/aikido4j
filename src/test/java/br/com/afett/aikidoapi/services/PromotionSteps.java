@@ -27,6 +27,7 @@ public class PromotionSteps {
 	RankService rankService;
 	List<PersonType> personTypes = new ArrayList<>();
 	boolean applicationRequired;
+	Rank testRank;
 	
 	@Before
 	public void setUp(Scenario scenario) {
@@ -64,9 +65,10 @@ public class PromotionSteps {
 	// ---------------
 	// WHEN
 	// ---------------
-	@When("i request to apply the student for the promotion test")
-	public void whenIRequestToApplyTheStudentForThePromotionTest() {
+	@When("i request to apply the student for the promotion test for {string}")
+	public void whenIRequestToApplyTheStudentForThePromotionTest(String testRank) {
 		applicationRequired = true;
+		this.testRank = new Rank(testRank, 60L, true);
 	}
 
 	// ---------------
@@ -75,20 +77,18 @@ public class PromotionSteps {
 
 	@Then("the student should not be allowed to take the promotion test")
 	public void thenTheStudentShouldNotBeAllowedToTakeThePromotionTest() {
-		try {
-			assertFalse(promotionService.validateRequirements(student));
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail();
-		}
+		Exception exception =  assertThrows(Exception.class, () -> {
+			promotionService.applyForTest(testRank, student);
+		});
+		assertEquals("Student does not have enough practice time!"
+				, exception.getMessage());
 	}
 
 	@Then("the student should be allowed to take the promotion test")
 	public void thenTheStudentShouldBeAllowedToTakeThePromotionTest() {
-		try {
-			assertTrue(promotionService.validateRequirements(student));
-		} catch (Exception e) {
-			fail();
-		}
+		Exception exception =  assertThrows(Exception.class, () -> {
+			promotionService.applyForTest(testRank, student);
+		});
+		assertEquals(null, exception.getMessage());
 	}
 }

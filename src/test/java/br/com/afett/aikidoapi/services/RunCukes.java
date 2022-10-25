@@ -25,11 +25,7 @@ import io.cucumber.junit.CucumberOptions;
 @RunWith(Cucumber.class)
 @CucumberOptions(features = {
 
-		//"src/test/resources/autenticacao/entrar.feature"
-		//"src/test/resources/imoveis/consulta_imoveis.feature"
-		//"src/test/resources/imoveis/inclui_imovel.feature"
-		//"src/test/resources/imoveis/edita_imovel.feature"
-		"src/test/resources/validate_student_promotion.feature"
+		"src/test/resources/promotion.feature"
 
 }
 //, tags = "@cenario04"

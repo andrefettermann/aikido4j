@@ -15,6 +15,6 @@ Scenario: student without enough practice time to take the test
 	| 2020-01-10 | 6th Kyu | 1 |
 	| 2020-01-12 | 6th Kyu | 2 |
 	| 2020-01-14 | 5th Kyu | 1 |
-	When i request to apply the student for the promotion test
+	When i request to apply the student for the promotion test for "5th Kyu"
 	Then the student should not be allowed to take the promotion test
 

@@ -3,13 +3,13 @@ package br.com.afett.aikido4j.entities;
 public class Rank {
 
 	private String id;
-	private String rankName;
+	private String name;
 	private Long requiredTime;
 	private boolean testRequired;
-	private String nextRank;
+	private String nextRankName;
 	
-	public Rank(String rankName, Long requiredTime, boolean testRequired) {
-		this.rankName = rankName;
+	public Rank(String name, Long requiredTime, boolean testRequired) {
+		this.name = name;
 		this.requiredTime = requiredTime;
 		this.testRequired = testRequired;
 	}
@@ -22,12 +22,12 @@ public class Rank {
 		this.id = id;
 	}
 	
-	public final String getRankName() {
-		return this.rankName;
+	public final String getName() {
+		return this.name;
 	}
 
-	public final void setRankName(final String rankName) {
-		this.rankName = rankName;
+	public final void setName(final String name) {
+		this.name = name;
 	}
 
 	public final Long getRequiredTime() {
@@ -38,31 +38,29 @@ public class Rank {
 		this.requiredTime = requiredTime;
 	}
 	
-	public final String getNextRank() {
-		return this.nextRank;
+	public final String getNextRankName() {
+		return this.nextRankName;
 	}
 
-	public void setNextRank(String nextRank) {
-		this.nextRank = nextRank;
+	public final void setNextRankName(final String nextRankName) {
+		this.nextRankName = nextRankName;
 	}
 	
-	public boolean isTestRequired() {
+	public final boolean isTestRequired() {
 		return this.testRequired;
 	}
 	
-	public void setTestRequired(boolean testRequired) {
+	public final void setTestRequired(final boolean testRequired) {
 		this.testRequired = testRequired;
 	}
 	
 	@Override
 	public String toString() {
 		return "Rank [rank="
-				+ rankName 
+				+ name 
 				+ ", requiredTime=" + requiredTime
-				+ ", nextRank=" + nextRank
+				+ ", nextRank=" + nextRankName
 				+ ", isTestRequired=" + testRequired
 				+ "]";
 	}
-	
-	
 }

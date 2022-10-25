@@ -13,13 +13,14 @@ public class StudentService {
 			if (practiceTime.getRankId().equals(
 					student.getRank().getId())) {
 				practiceTimeInCurrentRank += practiceTime.getClassDuration();
-			}			
+			}
 		}
 		return practiceTimeInCurrentRank;
 	}
 
 	public final String getNextRank(Student student) {
 		Rank currentRank = student.getRank();
-		return currentRank.getNextRank();
+		System.out.println("Next rank name=" + currentRank.getNextRankName());
+		return currentRank.getNextRankName();
 	}
 }

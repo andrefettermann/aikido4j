@@ -27,29 +27,38 @@ public class RankService {
 		return ranks.values().stream().collect(Collectors.toList());
 	}
 	
-	private void validate(Rank newRank) throws Exception {
-		if (newRank == null) {
-			throw new Exception("The rank is mandatory!");
-		} else {
-			if (newRank.getRankName() == null || newRank.getRankName().isEmpty()) {
-				throw new Exception("The rank name is mandatory!");
-			}
-			
-			if (newRank.getRequiredTime() == null) {
-				throw new Exception("The rank required time is mandatory!");
-			}
-			
-			if (newRank.getNextRank() != null) {
-				if (newRank.getRankName().equals(newRank.getNextRank())) {
-					throw new Exception(
-							"The next rank cant be the same as current rank!");
-				}
-			}
+	private void validateName(String rankName) throws Exception {
+		if (rankName == null || rankName.isEmpty()) {
+			throw new Exception("The rank name is mandatory!");
 		}
+	}
+	
+	private void validateRequiredTime(Long requiredTime) throws Exception {
+		if (requiredTime == null) {
+			throw new Exception("The rank required time is mandatory!");
+		}	
+	}
+	
+	private void validateNextRankName(String rankName, String nextRankName) 
+			throws Exception {
+		if (nextRankName != null) {
+			if (rankName.equals(nextRankName)) {
+				throw new Exception(
+						"The next rank cant be the same as current rank!");
+			}
+		}	
+	}
+	
+	private void validate(Rank newRank) throws Exception {
+		if (newRank == null) throw new Exception("The rank is mandatory!");
+
+		validateName(newRank.getName());
+		validateRequiredTime(newRank.getRequiredTime());
+		validateNextRankName(newRank.getName(), newRank.getNextRankName());
 	}
 		
 	public void insert(Rank newRank) throws Exception {
 			validate(newRank);
-			ranks.put(newRank.getRankName(), newRank);
+			ranks.put(newRank.getName(), newRank);
 	}
 }

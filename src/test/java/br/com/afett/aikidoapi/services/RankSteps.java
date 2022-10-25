@@ -41,7 +41,7 @@ public class RankSteps {
 	
 	@Given("i set the rank name as {string}")
 	public void givenISetTheRankNameAs(String name) {
-		rank.setRankName(name);
+		rank.setName(name);
 	}
 
 	@Given("i set the rank required time as {string}")
@@ -63,7 +63,7 @@ public class RankSteps {
 
 	@Given("i set the rank next rank as {string}")
 	public void givenISetTheRankNextRankAs(String nextRank) {
-		rank.setNextRank(nextRank);
+		rank.setNextRankName(nextRank);
 	}
 
 	@Given("there are the following ranks")
@@ -76,7 +76,7 @@ public class RankSteps {
 					 columns.get(2).equals("true")?true:false;
 			 Rank rank = new Rank(
 					 rankName, rankRequiredTime, rankkIsTestRequired);
-			 rank.setNextRank(columns.get(3));
+			 rank.setNextRankName(columns.get(3));
 			 rank.setId(rankName);
 			 try {
 				rankService.insert(rank);
@@ -116,7 +116,7 @@ public class RankSteps {
 	public void thenShouldSaveTheRank() {
 		try {
 			if (insertRequested) rankService.insert(rank);
-			assertNotNull(rankService.find(rank.getRankName()));
+			assertNotNull(rankService.find(rank.getName()));
 		} catch (Exception e) {
 			fail();
 		}
