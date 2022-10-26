@@ -20,7 +20,6 @@ public class StudentService {
 
 	public final String getNextRank(Student student) {
 		Rank currentRank = student.getRank();
-		System.out.println("Next rank name=" + currentRank.getNextRankName());
 		return currentRank.getNextRankName();
 	}
 }

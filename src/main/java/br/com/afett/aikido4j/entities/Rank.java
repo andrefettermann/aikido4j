@@ -7,6 +7,7 @@ public class Rank {
 	private Long requiredTime;
 	private boolean testRequired;
 	private String nextRankName;
+	private String belt;
 	
 	public Rank(String name, Long requiredTime, boolean testRequired) {
 		this.name = name;
@@ -54,6 +55,14 @@ public class Rank {
 		this.testRequired = testRequired;
 	}
 	
+	public final String getBelt() {
+		return this.belt;
+	}
+
+	public final void setBelt(final String belt) {
+		this.belt = belt;
+	}
+
 	@Override
 	public String toString() {
 		return "Rank [rank="
