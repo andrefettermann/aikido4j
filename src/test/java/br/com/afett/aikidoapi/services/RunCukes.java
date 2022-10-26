@@ -25,7 +25,7 @@ import io.cucumber.junit.CucumberOptions;
 @RunWith(Cucumber.class)
 @CucumberOptions(features = {
 
-		"src/test/resources/promotion.feature"
+		"src/test/resources/promotion_application.feature"
 
 }
 //, tags = "@cenario04"
