@@ -12,6 +12,7 @@ import br.com.afett.aikido4j.entities.PromotionTest;
 import br.com.afett.aikido4j.entities.Student;
 import br.com.afett.aikido4j.services.PromotionTestService;
 import br.com.afett.aikido4j.services.RankService;
+import br.com.afett.aikido4j.services.StudentService;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
@@ -23,6 +24,7 @@ public class PromotionSteps {
 
 	RankService rankService;
 	PromotionTestService promotionTestService;
+	StudentService studentService;
 
 	Student student;
 	List<PersonType> studentPersonTypes = new ArrayList<>();
@@ -36,6 +38,7 @@ public class PromotionSteps {
 	public void setUp(Scenario scenario) {
 		promotionTestService = new PromotionTestService();
 		rankService = RankService.getInstance();
+		studentService = new StudentService();
 	}
 
 	@After
@@ -45,48 +48,44 @@ public class PromotionSteps {
 	// ----------------
 	// GIVEN
 	// ----------------
-	@Given("i did not registered the promotion test data")
-	public void givenIDidNotRegisteredThePromotionTestData() {
+	@Given("the user did not inform a promotion test")
+	public void givenTheSenseiDidNotInformAPromotionTest() {
 		promotionTest = null;
 	}
 
-	@Given("i registered the promotion test data")
-	public void givenIRegisteredThePromotionData() {
-		try {
-			promotionTest = new PromotionTest("Test");
-			promotionTestService.insert(promotionTest);
-		} catch (Exception e) {
-			fail();
-		}
+	@Given("the user informed a promotion test")
+	public void givenTheUserInformedAPromotionTest() {
+		promotionTest = promotionTestService.read("1st Exam");
 	}
 
-	@Given("i did not inform the student")
-	public void givenIDidNotInformStudent() {
+	@Given("the user informed a promotion test without ranks registered")
+	public void givenTheUserInformedAPromotionTestWithoutRanks() {
+		promotionTest = promotionTestService.read("1st Exam");
+	}
+
+	@Given("the user informed a promotion test with ranks registered")
+	public void givenTheUserInformedAPromotionTestWithRanks() {
+		promotionTest = promotionTestService.read("2nd Exam");
+	}
+
+	@Given("the user did not inform the student")
+	public void givenTheUserDidNotInformStudent() {
 		student = null;
 	}
 	
-	@Given("i informed the student")
-	public void givenIInformedTheStudent() {
-		student = new Student("Student name"
-				, rankService.find("6th Kyu"), studentPersonTypes);
+	@Given("the user informed a student")
+	public void givenTheUserInformedAStudent() {
+		student = studentService.read("Student");
 	}
 
-	@Given("i did not registered the ranks for the promotion test")
-	public void givenIDidNotRegisteredTHeRanksForTheTest() {
-		promotionTest = promotionTestService.read(0);
-		promotionTest.getRanks().clear();
+	@Given("the user informed a student without a rank registered for the promotion test")
+	public void givenTheUserInformedAStudentWithouARankRegisteredForThePromotionTest() {
+		student = studentService.read("Student");
 	}
 
-	@Given("i registered the ranks for the promotion test")
-	public void givenIRegisteredTheRanksForTheTest() {
-		promotionTest = promotionTestService.read(0);
-		promotionTest.addRank(rankService.find("1st Kyu"));
-		promotionTest.addRank(rankService.find("Godan"));
-	}
-
-	@Given("i did not registered the student rank for the promotion test")
-	public void givenIDidNotRegisteredTheStudentRankForThePromotionTest() {
-		//promotionTest.addRank(rankService.find("5th Kyu"));
+	@Given("the user informed a student with a rank registered for the promotion test")
+	public void givenTheUserInformedAStudentWithARankRegisteredForThePromotionTest() {
+		student = studentService.read("2nd Student");
 	}
 	
 	@Given("i registered the student rank for the promotion test")
@@ -143,8 +142,8 @@ public class PromotionSteps {
 	// WHEN
 	// ---------------
 
-	@When("i submit an application")
-	public void whenISubmitAnApplication() {
+	@When("the user submit an application")
+	public void whenTheUserSubmitAnApplication() {
 		try {
 		    applicationId =	promotionTestService.apply(promotionTest, student);
 		} catch (Exception e) {
@@ -168,7 +167,7 @@ public class PromotionSteps {
 
 	@Then("should be informed that the ranks are mandatory")
 	public void thenShouldBeInformedThatTheRanksAreMandatory() {
-		assertEquals(message, PromotionTestService.RANKS_MANDATORY);
+		assertEquals(PromotionTestService.RANKS_MANDATORY, message);
 	}
 
 	@Then("should be informed that the student rank is not registered for the promotion test")

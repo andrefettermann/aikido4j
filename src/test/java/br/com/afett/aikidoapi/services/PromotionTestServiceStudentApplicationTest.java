@@ -35,32 +35,32 @@ class PromotionTestServiceStudentApplicationTest {
 			promotionService.insert(promotionTest);
 			
 			Rank rank = new Rank("6th Kyu", 0L, false);
-			rank.setNextRankName("5th Kyu");
+			rank.setNextRankId("5th Kyu");
 			rank.setId(rank.getName());
 			rankService.insert(rank);
 
 			rank = new Rank("5th Kyu", 60L, true);
-			rank.setNextRankName("4th Kyu");
+			rank.setNextRankId("4th Kyu");
 			rank.setId(rank.getName());
 			rankService.insert(rank);
 			
 			rank = new Rank("4th Kyu", 75L, true);
-			rank.setNextRankName("3rd Kyu");
+			rank.setNextRankId("3rd Kyu");
 			rank.setId(rank.getName());
 			rankService.insert(rank);
 
 			rank = new Rank("3rd Kyu", 75L, true);
-			rank.setNextRankName("2nd Kyu");
+			rank.setNextRankId("2nd Kyu");
 			rank.setId(rank.getName());
 			rankService.insert(rank);
 
 			rank = new Rank("1st Kyu", 75L, true);
-			rank.setNextRankName("Shodan");
+			rank.setNextRankId("Shodan");
 			rank.setId(rank.getName());
 			rankService.insert(rank);
 
 			rank = new Rank("Godan", 450L, false);
-			rank.setNextRankName("Rokudan");
+			rank.setNextRankId("Rokudan");
 			rank.setId(rank.getName());
 			rankService.insert(rank);
 		} catch (Exception e) {
@@ -96,7 +96,7 @@ class PromotionTestServiceStudentApplicationTest {
 	@Test
 	public void testStudentDataMandatory() {
 		try {
-			promotionService.apply(promotionService.read(0), null);
+			promotionService.apply(promotionService.read(""), null);
 			fail();
 		} catch (Exception e) {
 			assertEquals(
@@ -114,7 +114,7 @@ class PromotionTestServiceStudentApplicationTest {
 	@Test
 	public void testNoRanksForTestInformed() {
 		try {
-			promotionService.apply(promotionService.read(0), student);
+			promotionService.apply(promotionService.read(""), student);
 			fail();
 		} catch (Exception e) {
 			assertEquals(
@@ -136,7 +136,7 @@ class PromotionTestServiceStudentApplicationTest {
 		student.setRank(rankService.find("6th Kyu"));
 		promotionTest.addRank(rankService.find("Godan"));
 		try {
-			promotionService.apply(promotionService.read(0), student);
+			promotionService.apply(promotionService.read(""), student);
 			fail();
 		} catch (Exception e) {
 			assertEquals(
@@ -172,7 +172,7 @@ class PromotionTestServiceStudentApplicationTest {
 		student.setRank(rankService.find("6th Kyu"));
 		promotionTest.addRank(rankService.find("5th Kyu"));
 		try {
-			promotionService.apply(promotionService.read(0), student);
+			promotionService.apply(promotionService.read(""), student);
 			fail();
 		} catch (Exception e) {
 			assertEquals(
@@ -207,7 +207,7 @@ class PromotionTestServiceStudentApplicationTest {
 		student.setRank(rankService.find("6th Kyu"));
 		promotionTest.addRank(rankService.find("5th Kyu"));
 		try {
-			int id = promotionService.apply(promotionService.read(0), student);
+			int id = promotionService.apply(promotionService.read(""), student);
 			assertTrue(id>0);
 		} catch (Exception e) {
 			fail();
@@ -240,7 +240,7 @@ class PromotionTestServiceStudentApplicationTest {
 		student.setRank(rankService.find("6th Kyu"));
 		promotionTest.addRank(rankService.find("5th Kyu"));
 		try {
-			int id = promotionService.apply(promotionService.read(0), student);
+			int id = promotionService.apply(promotionService.read(""), student);
 			assertTrue(id>0);
 		} catch (Exception e) {
 			fail();

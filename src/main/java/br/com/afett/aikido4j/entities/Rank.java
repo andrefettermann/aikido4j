@@ -6,7 +6,7 @@ public class Rank {
 	private String name;
 	private Long requiredTime;
 	private boolean testRequired;
-	private String nextRankName;
+	private String nextRankId;
 	private String belt;
 	
 	public Rank(String name, Long requiredTime, boolean testRequired) {
@@ -40,11 +40,11 @@ public class Rank {
 	}
 	
 	public final String getNextRankName() {
-		return this.nextRankName;
+		return this.nextRankId;
 	}
 
-	public final void setNextRankName(final String nextRankName) {
-		this.nextRankName = nextRankName;
+	public final void setNextRankId(final String nextRankId) {
+		this.nextRankId = nextRankId;
 	}
 	
 	public final boolean isTestRequired() {
@@ -65,10 +65,12 @@ public class Rank {
 
 	@Override
 	public String toString() {
-		return "Rank [rank="
+		return "Rank [id="
+				+ id
+				+ ", name="
 				+ name 
 				+ ", requiredTime=" + requiredTime
-				+ ", nextRank=" + nextRankName
+				+ ", nextRank=" + nextRankId
 				+ ", isTestRequired=" + testRequired
 				+ "]";
 	}

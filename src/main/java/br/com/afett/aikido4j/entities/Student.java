@@ -18,4 +18,10 @@ public class Student extends Person {
 	public List<PracticeTime> getPracticeTimes() {
 		return this.practiceTimes;
 	}
+	
+	@Override
+	public String toString() {
+		return "Student: id=" + getId()
+				+ ", name=" + getName();
+	}
 }

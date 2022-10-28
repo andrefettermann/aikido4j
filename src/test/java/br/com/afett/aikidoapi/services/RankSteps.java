@@ -18,8 +18,9 @@ public class RankSteps {
 
 	Rank rank;
 	RankService rankService;
-	boolean insertRequested;
-	boolean listAllRanksRequested;
+	
+	List<Rank> ranks;
+	String message;
 	
 	@Before
 	public void setUp(Scenario scenario) {
@@ -63,9 +64,14 @@ public class RankSteps {
 
 	@Given("i set the rank next rank as {string}")
 	public void givenISetTheRankNextRankAs(String nextRank) {
-		rank.setNextRankName(nextRank);
+		rank.setNextRankId(nextRank);
 	}
 
+	@Given("there are ranks registered")
+	public void givenThereAreRanksRegistered() {
+		
+	}
+	
 	@Given("there are the following ranks")
 	public void givenIHaveTheFollowingRanks(DataTable table) {
 		 List<List<String>> rows = table.asLists(String.class);
@@ -76,7 +82,7 @@ public class RankSteps {
 					 columns.get(2).equals("true")?true:false;
 			 Rank rank = new Rank(
 					 rankName, rankRequiredTime, rankkIsTestRequired);
-			 rank.setNextRankName(columns.get(3));
+			 rank.setNextRankId(columns.get(3));
 			 rank.setId(rankName);
 			 try {
 				rankService.insert(rank);
@@ -92,12 +98,16 @@ public class RankSteps {
 	// ---------------
 	@When("i request to save the new rank")
 	public void whenIRequestToSaveTheNewRank() {
-		insertRequested = true;
+		try {
+			rankService.insert(rank);
+		} catch (Exception e) {
+			message = e.getMessage();
+		}
 	}
 
 	@When("i request to list all ranks")
 	public void whenIRequestToListAllRanks() {
-		listAllRanksRequested = true;
+		ranks = rankService.list();
 	}
 	
 	// ---------------
@@ -114,16 +124,11 @@ public class RankSteps {
 	
 	@Then("should save the rank")
 	public void thenShouldSaveTheRank() {
-		try {
-			if (insertRequested) rankService.insert(rank);
-			assertNotNull(rankService.find(rank.getName()));
-		} catch (Exception e) {
-			fail();
-		}
+		assertNotNull(rankService.find(rank.getId()));
 	}
 	
 	@Then("all ranks should be listed")
 	public void thenAllRanksShouldBeListed() {
-		assertEquals(2, rankService.list().size());
+		assertEquals(12, ranks.size());
 	}
 }

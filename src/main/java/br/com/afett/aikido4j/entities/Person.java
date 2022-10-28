@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Person {
 
+	private String id;
 	private String name;
 	private Rank rank;
 	private List<PersonType> personTypes;
@@ -12,6 +13,14 @@ public class Person {
 		this.name = name;
 		this.rank = rank;
 		this.personTypes = personTypes;
+	}
+
+	public final String getId() {
+		return this.id;
+	}
+	
+	public final void setId(final String id) {
+		this.id = id;
 	}
 
 	public final String getName() {

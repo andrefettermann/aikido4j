@@ -34,7 +34,7 @@ Scenario: Rank with next rank equals to rank name
 	Then should be thrown a rank exception with this text "The next rank cant be the same as current rank!"
 
 Scenario: Rank saved successfully
-	Given i set the rank name as "6th Kyu"
+	Given i set the rank name as "Hachidan"
 	Given i set the rank required time as "0"
 	Given i set the rank requires a test
 	Given i set the rank next rank as "5th Kyu"

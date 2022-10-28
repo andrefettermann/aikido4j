@@ -1,8 +1,9 @@
 package br.com.afett.aikido4j.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import br.com.afett.aikido4j.daos.Dao;
+import br.com.afett.aikido4j.daos.PromotionTestsMockDao;
 import br.com.afett.aikido4j.entities.PromotionTest;
 import br.com.afett.aikido4j.entities.Rank;
 import br.com.afett.aikido4j.entities.Student;
@@ -27,12 +28,13 @@ public class PromotionTestService {
 	public static final String STUDENT_NOT_ENOUGH_TIME = 
 			"Student does not have enough practice time!";
 
-	private List<PromotionTest> promotionTests = new ArrayList<>();
+	private Dao<PromotionTest> promotionTestDao;
 	
 	private StudentService studentService;
 
 	public PromotionTestService() {
 		studentService = new StudentService();
+		promotionTestDao = new PromotionTestsMockDao();
 	}
 	
 	private void validate(PromotionTest promotionTest) throws Exception {
@@ -50,11 +52,11 @@ public class PromotionTestService {
 	
 	public void insert(PromotionTest promotionTest) throws Exception {
 		validate(promotionTest);
-		promotionTests.add(promotionTest);
+		promotionTestDao.save(promotionTest);
 	}
 	
-	public PromotionTest read(int id) {
-		return promotionTests.get(id);
+	public PromotionTest read(String id) {
+		return promotionTestDao.get(id);
 	}
 	
 	private void checkStudentRequirements(

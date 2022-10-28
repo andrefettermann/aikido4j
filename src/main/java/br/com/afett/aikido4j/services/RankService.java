@@ -1,30 +1,31 @@
 package br.com.afett.aikido4j.services;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
+import br.com.afett.aikido4j.daos.Dao;
+import br.com.afett.aikido4j.daos.RanksMockDao;
 import br.com.afett.aikido4j.entities.Rank;
 
 public class RankService {
 	
-	private Map<String, Rank> ranks = new HashMap<>();
-	
 	private static RankService instance = new RankService();
 	
-	private RankService() {}
+	private Dao<Rank> dao;
+	
+	private RankService() {
+		dao = new RanksMockDao();
+	}
 	
 	public static RankService getInstance() {
 		return instance;
 	}
 	
-	public Rank find(String rankId) {
-		return ranks.get(rankId);
+	public Rank find(String id) {
+		return dao.get(id);
 	}
 	
 	public List<Rank> list() {
-		return ranks.values().stream().collect(Collectors.toList());
+		return dao.getAll();
 	}
 	
 	private void validateName(String rankName) throws Exception {
@@ -59,6 +60,6 @@ public class RankService {
 		
 	public void insert(Rank newRank) throws Exception {
 			validate(newRank);
-			ranks.put(newRank.getName(), newRank);
+			dao.save(newRank);
 	}
 }
